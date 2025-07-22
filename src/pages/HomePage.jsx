@@ -35,7 +35,7 @@ const HomePage = () => {
         <Select
           placeholder="Filter by category"
           allowClear
-          style={{ width: 200, marginLeft: 10 }}
+          style={{ width: 200, marginLeft: 10,marginBottom: 20 }}
           onChange={handleCategoryFilter}
           value={categoryFilter}
         >
