@@ -75,7 +75,9 @@ const CartPage = () => {
         <Button
           type="link"
           danger
-          onClick={() => removeFromCart(record.id)}
+          onClick={() => {
+          message.success(`${record.name} removed from cart!`);
+          removeFromCart(record.id)}}
         >
           Remove
         </Button>

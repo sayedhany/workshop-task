@@ -16,8 +16,8 @@ const ProductPage = () => {
   const { addToCart } = useCart();
   const { message } = AntApp.useApp();
   const product = products.find(p => p.id === parseInt(id));
-  
-  if (!product) return <Spin size="large" />;
+
+  if (!product) return <Spin style={{position:'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}} size="large" />;
 
   const handleAddToCart = () => {
     addToCart(product);

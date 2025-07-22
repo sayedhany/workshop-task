@@ -39,6 +39,7 @@ const HomePage = () => {
           onChange={handleCategoryFilter}
           value={categoryFilter}
         >
+          <Option value="" >All Categories</Option>
           <Option value="Electronics">Electronics</Option>
           <Option value="Clothing">Clothing</Option>
           <Option value="Home">Home</Option>
@@ -47,7 +48,7 @@ const HomePage = () => {
       </div>
 
       {loading ? (
-        <Spin size="large" />
+        <Spin style={{position:'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}} size="large" />
       ) : (
         <>
           <List
