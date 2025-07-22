@@ -55,7 +55,7 @@ const HomePage = () => {
             dataSource={products}
             renderItem={(product) => (
               <List.Item>
-                <ProductCard product={product} />
+                <ProductCard product={product} page={page} />
               </List.Item>
             )}
           />

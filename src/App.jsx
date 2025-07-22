@@ -10,7 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <CartProvider>
-      <AppHeader />
+        <AppHeader />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductPage />} />

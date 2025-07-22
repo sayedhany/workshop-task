@@ -8,13 +8,14 @@ import { App as AntApp } from "antd";
 
 const ProductPage = () => {
   const { id } = useParams();
+  
   const navigate = useNavigate();
-  const { products } = useProducts();
+  const searchParams = new URLSearchParams(window.location.search);
+  const page = searchParams.get('page');
+  const { products } = useProducts(page);
   const { addToCart } = useCart();
   const { message } = AntApp.useApp();
-
   const product = products.find(p => p.id === parseInt(id));
-  console.log(product);
   
   if (!product) return <Spin size="large" />;
 

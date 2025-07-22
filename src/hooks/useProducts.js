@@ -2,59 +2,66 @@
 import { useState, useEffect, useMemo } from 'react';
 import { generateProducts } from '../utils/generateProducts';
 
-const useProducts = () => {
+const useProducts = (currPage) => {
   const [allProducts] = useState(() => generateProducts(10000));
   const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(currPage || 1);
   const [pageSize, setPageSize] = useState(20);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Memoize filtered products for performance
+  const filteredProducts = useMemo(() => {
+    const term = searchTerm.toLowerCase();
+    return allProducts.filter(product => {
+      const matchesSearch =
+        product.name.toLowerCase().includes(term) ||
+        product.description.toLowerCase().includes(term);
+      const matchesCategory =
+        !categoryFilter || product.category === categoryFilter;
+      return matchesSearch && matchesCategory;
+    });
+  }, [allProducts, searchTerm, categoryFilter]);
+
+  // Memoize paginated products
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (page - 1) * pageSize;
+    return filteredProducts.slice(startIndex, startIndex + pageSize);
+  }, [filteredProducts, page, pageSize]);
+
   useEffect(() => {
     setLoading(true);
-    
-    // Simulate API call delay
     const timer = setTimeout(() => {
-      const filtered = allProducts.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            product.description.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesCategory = !categoryFilter || product.category === categoryFilter;
-        return matchesSearch && matchesCategory;
-      });
-      
-      const startIndex = (page - 1) * pageSize;
-      const paginated = filtered.slice(startIndex, startIndex + pageSize);
-      
-      setProducts(paginated);
+      setProducts(
+        paginatedProducts.map(product => ({
+          ...product,
+          id: product.id,
+        }))
+      );
       setLoading(false);
     }, 300);
-    
-    return () => clearTimeout(timer);
-  }, [allProducts, page, pageSize, searchTerm, categoryFilter]);
 
-  const total = useMemo(() => {
-    return allProducts.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = !categoryFilter || product.category === categoryFilter;
-      return matchesSearch && matchesCategory;
-    }).length;
-  }, [allProducts, searchTerm, categoryFilter]);
+    return () => clearTimeout(timer);
+  }, [paginatedProducts]);
+
+  const total = filteredProducts.length;
 
   const handlePageChange = (newPage, newPageSize) => {
     setPage(newPage);
     setPageSize(newPageSize);
   };
 
-  const handleSearch = (term) => {
+  const handleSearch = term => {
     setSearchTerm(term);
-    setPage(1); // Reset to first page when searching
+    // Only reset page if the search term actually changes
+    setPage(prev => term !== searchTerm ? 1 : prev);
   };
 
-  const handleCategoryFilter = (category) => {
+  const handleCategoryFilter = category => {
     setCategoryFilter(category);
-    setPage(1); // Reset to first page when filtering
+    // Only reset page if the category actually changes
+    setPage(prev => category !== categoryFilter ? 1 : prev);
   };
 
   return {

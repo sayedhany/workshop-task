@@ -1,10 +1,14 @@
 import { faker } from "@faker-js/faker";
 
 // utils/generateProducts.js
-export const generateProducts = () => {
+let cachedProducts = null;
+
+export const generateProducts = (num) => {
+  if (cachedProducts) return cachedProducts;
+
   const categories = ["Electronics", "Clothing", "Home", "Books", "Sports", "Beauty"];
   const products = [];
-  for (let i = 1; i <= 10000; i++) {
+  for (let i = 1; i <= num; i++) {
     products.push({
       id: i,
       name: faker.commerce.productName(),
@@ -16,5 +20,6 @@ export const generateProducts = () => {
       stock: Math.floor(Math.random() * 100) + 1,
     });
   }
+  cachedProducts = products;
   return products;
 };

@@ -6,7 +6,7 @@ const { Text, Title } = Typography;
 import {useCart} from "../../hooks/useCart";
 import { App as AntApp } from "antd";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, page }) => {
   const { message } = AntApp.useApp();
   
 
@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
     <Card
       hoverable
       cover={
-        <Link to={`/product/${product.id}`}>
+        <Link to={`/product/${product.id}?page=${page}`}>
           <img
             alt={product.name}
             src={product.image}
@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
         </Link>
       }
       actions={[
-        <Link to={`/product/${product.id}`}>
+        <Link to={`/product/${product.id}?page=${page}`}>
           <Button type="primary">View Details</Button>
         </Link>,
         <Button
