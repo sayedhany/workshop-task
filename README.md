@@ -4,6 +4,8 @@ A performant e-commerce shopping cart application built with React, Ant Design, 
 
 ![App Screenshot](https://via.placeholder.com/800x400?text=Shopping+Cart+App+Screenshot)
 
+View the app live: [https://workshop-task-sayed.netlify.app/](https://workshop-task-sayed.netlify.app/)
+
 ## ✨ Features
 
 - 📜 Product listing with 10,000+ items (mock data)
@@ -28,28 +30,25 @@ A performant e-commerce shopping cart application built with React, Ant Design, 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/react-shopping-cart.git
+   git clone https://github.com/sayedhany/workshop-task.git
    ```
 2. Navigate to project directory:
    ```bash
-   cd react-shopping-cart
+   cd workshop-task
    ```
 3. Install dependencies:
    ```bash
    npm install
-   # or
-   yarn install
+   
    ```
 
 ## 🚀 Running the App
 
 Start development server:
 ```bash
-npm start
-# or
-yarn start
+npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to view in browser.
+Open [http://localhost:5173](http://localhost:5173) to view in browser.
 
 ## 🏗️ Project Structure
 
