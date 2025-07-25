@@ -1,32 +1,73 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import ProductPage from "./pages/ProductPage";
-import CartPage from "./pages/CartPage";
+import { ConfigProvider, App as AntApp } from "antd";
 import AppHeader from "./components/Layout/Header";
 import { CartProvider } from "./hooks/useCart";
-import React from "react";
-import { Spin } from "antd";
+import ErrorBoundary from "./components/Layout/ErrorBoundary";
+import LoadingSpinner from "./components/Layout/LoadingSpinner";
+import React, { Suspense } from "react";
 
-const Home = React.lazy(() => import("./pages/HomePage"));
-const Product = React.lazy(() => import("./pages/ProductPage"));
-const Cart = React.lazy(() => import("./pages/CartPage"));
+// Lazy load pages for better performance
+const HomePage = React.lazy(() => import("./pages/HomePage"));
+const ProductPage = React.lazy(() => import("./pages/ProductPage"));
+const CartPage = React.lazy(() => import("./pages/CartPage"));
 
+// Ant Design theme configuration
+const themeConfig = {
+  token: {
+    colorPrimary: '#1890ff',
+    borderRadius: 6,
+    colorBgContainer: '#ffffff',
+  },
+  components: {
+    Layout: {
+      headerBg: '#001529',
+      headerHeight: 80,
+    },
+    Card: {
+      borderRadiusLG: 8,
+    },
+    Button: {
+      borderRadiusLG: 6,
+    },
+  },
+};
+
+/**
+ * Enhanced App component with better error handling, theming, and performance
+ */
 function App() {
   return (
-    <BrowserRouter>
-      <CartProvider>
-        <AppHeader />
-        <React.Suspense fallback={<Spin style={{position:'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}} size="large" />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/product/:id" element={<Product />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="*" element={<HomePage />} />
-          </Routes>
-        </React.Suspense>
-      </CartProvider>
-    </BrowserRouter>
+    <ConfigProvider theme={themeConfig}>
+      <AntApp>
+        <BrowserRouter>
+          <ErrorBoundary>
+            <CartProvider>
+              <div className="app">
+                <AppHeader />
+                <main className="main-content">
+                  <Suspense 
+                    fallback={
+                      <div style={{ position: 'relative', minHeight: '60vh' }}>
+                        <LoadingSpinner message="Loading page..." />
+                      </div>
+                    }
+                  >
+                    <Routes>
+                      <Route path="/" element={<HomePage />} />
+                      <Route path="/product/:id" element={<ProductPage />} />
+                      <Route path="/cart" element={<CartPage />} />
+                      {/* Fallback route */}
+                      <Route path="*" element={<HomePage />} />
+                    </Routes>
+                  </Suspense>
+                </main>
+              </div>
+            </CartProvider>
+          </ErrorBoundary>
+        </BrowserRouter>
+      </AntApp>
+    </ConfigProvider>
   );
 }
 
