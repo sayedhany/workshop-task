@@ -152,8 +152,8 @@ const HomePage = memo(() => {
               sm: 2, 
               md: 3, 
               lg: 4, 
-              xl: 5, 
-              xxl: 6
+              xl: 4,
+              xxl: 4
             }}
             dataSource={products}
             renderItem={(product) => (
