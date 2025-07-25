@@ -14,7 +14,6 @@ A high-performance, feature-rich e-commerce shopping cart application built with
 - ✅ **Image Optimization**: Lazy loading and error handling for product images
 
 ### **Code Quality & Architecture**
-- ✅ **TypeScript-like JSDoc**: Comprehensive type definitions for better IDE support
 - ✅ **Error Boundaries**: Graceful error handling with user-friendly fallbacks
 - ✅ **Custom Hooks**: Reusable logic with `useLocalStorage`, `useDebounce`
 - ✅ **Constants Management**: Centralized configuration and constants
