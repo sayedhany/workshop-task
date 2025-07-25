@@ -203,7 +203,7 @@ const AppHeader = memo(() => {
   const DesktopNav = memo(() => (
     <Space size="large" align="center">
       {/* Search */}
-      <Search
+      {/* <Search
         placeholder="Search products..."
         allowClear
         enterButton={<SearchOutlined />}
@@ -211,7 +211,7 @@ const AppHeader = memo(() => {
         onSearch={handleMobileSearch}
         style={{ width: 300 }}
         className="header-search"
-      />
+      /> */}
 
       {/* Navigation Links */}
       <Space size="large">
